@@ -14,9 +14,9 @@
                         <strong class="first">发生时间</strong>
                         <el-date-picker
                             v-model="sendData.startAlarmTime"
-                            type="datetime"
+                            type="date"
                             placeholder="选择日期时间"
-                            value-format="yyyy-MM-dd HH:mm:ss"
+                            value-format="yyyy-MM-dd"
                             class="middleInput"
                         >
                         </el-date-picker>
@@ -75,9 +75,13 @@
             </li>
             <li>
                 <label>
-                    <el-form-item prop="alarmSite">
+                    <el-form-item prop="stationId">
                         <strong class="first">故障列车位置</strong>
-                        <el-select v-if="sendData.alarmTypeDetail == 402 || sendData.alarmTypeDetail == 201 || sendData.alarmTypeDetail == 202 || sendData.alarmTypeDetail == 301 || sendData.alarmTypeDetail == 302" v-model="sendData.alarmSite" filterable placeholder="请选择" class="middleInput">
+                        <el-select 
+                            v-if="sendData.alarmTypeDetail == 402 || sendData.alarmTypeDetail == 201 || sendData.alarmTypeDetail == 202 || sendData.alarmTypeDetail == 301 || sendData.alarmTypeDetail == 302" 
+                            v-model="sendData.stationId" filterable placeholder="请选择" class="middleInput"
+                            
+                        >
                             <el-option 
                                 v-for="item in errLocationByAll"
                                 :key="item.value"
@@ -85,7 +89,8 @@
                                 :value="item.value">
                             </el-option>
                         </el-select>
-                        <el-select v-else v-model="sendData.alarmSite" filterable placeholder="请选择" class="middleInput">
+                        <el-select v-else v-model="sendData.stationId" filterable placeholder="请选择" class="middleInput"
+                        @change="getAlarmSite(errLocation,sendData.stationId)">
                             <el-option
                                 v-for="item in errLocation"
                                 :key="item.value"
@@ -542,7 +547,7 @@ export default {
             if(res.success){
                 for (let index = 0; index < res.data.length; index++) {
                     self.errLocation.push({
-                        value:res.data[index].stationName,
+                        value:res.data[index].stationId,
                         label:res.data[index].stationName
                     })                 
                 }
@@ -552,7 +557,7 @@ export default {
                         self.errLocationByAll = JSON.parse(JSON.stringify(self.errLocation))
                         for (let index = 0; index < res.data.length; index++) {
                             self.errLocationByAll.push({
-                                value:res.data[index].stationName,
+                                value:res.data[index].stationId,
                                 label:res.data[index].stationName
                             })                 
                         }
@@ -636,6 +641,14 @@ export default {
                 this.dkl = false
             }else{
                 this.dkl = true
+            }
+        },
+        getAlarmSite(data,index){
+            for (let i = 0; i < data.length; i++) {
+                if(data[i].value == index){
+                    this.sendData.alarmSite = data[i].label
+                }
+                
             }
         }
     }
