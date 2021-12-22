@@ -597,7 +597,7 @@ export default {
                 });
                 return
             }else{
-                this.sendData.alarmType = parseFloat(this.sendData.alarmTypeX[2]).toString()
+                this.sendData.alarmType = parseFloat(this.sendData.alarmTypeX[2])
                 this.sendData.alarmTypeDetail = this.sendData.alarmTypeX[2]
             }
 
