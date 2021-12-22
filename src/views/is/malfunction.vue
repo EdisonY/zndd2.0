@@ -80,7 +80,7 @@
                         <el-select 
                             v-if="sendData.alarmTypeDetail == 402 || sendData.alarmTypeDetail == 201 || sendData.alarmTypeDetail == 202 || sendData.alarmTypeDetail == 301 || sendData.alarmTypeDetail == 302" 
                             v-model="sendData.stationId" filterable placeholder="请选择" class="middleInput"
-                            
+                            @change="getAlarmSite(errLocationByAll,sendData.stationId)"
                         >
                             <el-option 
                                 v-for="item in errLocationByAll"
@@ -579,7 +579,6 @@ export default {
             this.sendData.stopAreaNumber = 0
             this.sendData.platformId = 0
             this.sendData.physicsSectionType = 0
-            this.sendData.stationId = this.sendData.alarmSite
             this.sendData.alarmSource = ''
             this.sendData.alarmState = 1
             this.sendData.alarmData = ''
