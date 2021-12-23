@@ -12,11 +12,11 @@ var time = 0
 var text = ''
 
 
+
 let loading;
 
 function initWebSocket(){ //初始化weosocket
     //ws地址
-    
     // var wsuri = 'ws://172.18.39.166:30260/ws;' + JSON.parse(localStorage.getItem('userInfo')).stationId + ';172.18.32.154';
     var wsuri = 'ws://172.18.39.149:30260/ws;' + JSON.parse(localStorage.getItem('userInfo')).stationId;
     websock = new WebSocket(wsuri);
@@ -88,6 +88,9 @@ function getSock(e){
         stroe.dispatch("springboard/getLogData", JSON.parse(e.data));
     }else if(e.data && JSON.parse(e.data).msgCode == 208003){
         stroe.dispatch("springboard/getwarnData", JSON.parse(e.data));
+    }else if(e.data && JSON.parse(e.data).msgCode == 209001){
+        //刷新调度命令列表
+        Vue.prototype.$EventBus.$emit('refreshList')
     }else if(e.msgType == 1){
         
     }else if(JSON.parse(e.data).msgType == 4){

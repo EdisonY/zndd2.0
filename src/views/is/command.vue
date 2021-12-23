@@ -1715,6 +1715,11 @@ export default {
             }
         })
     },
+    mounted () {
+        this.$EventBus.$on('refreshList',()=>{
+            this.search()
+        })    
+    },
     methods: {
         handleClose(){
             this.dialogVisible = false
